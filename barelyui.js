@@ -9,7 +9,7 @@
     var BarelyUI = function (element, options) {
         // Context element
         var elem = $(element);
-        var obj = this;
+        
         var settings = $.extend({
             param: 'defaultvalue'
         }, options || {});
@@ -26,7 +26,7 @@
          */
         this.textbox = function (id, prompt) {
             return $('<label for="' + id + '">' + prompt + '</label><input type="text" id="' + id + '">');
-        }
+        };
 
         /**
          * Creates a jQuery object of a check box
@@ -34,10 +34,9 @@
          * @param {string} prompt Description
          * @return {jQuery}
          */
-
         this.checkbox = function (id, prompt) {
             return $('<input type="checkbox" id="' + id + '"><label for="' + id + '">' + prompt + '</label>');
-        }
+        };
 
         /**
          * Creates a jQuery object of a radio button set
@@ -62,8 +61,7 @@
             }
             e += '</label>';
             return e;
-
-        }
+        };
 
         /**
          * Creates a jQuery object of a button
@@ -73,7 +71,7 @@
          */
         this.button = function (id, prompt) {
             return $('<button type="button" id="' + id + '">' + prompt + '</button>')
-        }
+        };
 
         /**
          * Creates a jQuery object of a window
@@ -87,8 +85,52 @@
                 '       <h3><em>' + title + '</em></h3>' +
                 '   </header>' +
                 '</article>');
-        }
+        };
 
+        // TODO Document component class
+        var Component = function () {
+            
+            this.data = {};
+            
+            this.add = function () {
+                
+            };
+            
+            this.hide = function () {
+            
+            };
+            
+            this.show = function () {
+            
+            };
+            
+            this.remove = function () {
+            
+            };
+            
+            this.jQuery = function () {
+                return this.data;
+            };
+        };
+        
+                
+        // TODO Document panel class
+        var Panel = function (id, title) {
+            
+            this.id = id;
+            this.title = title;
+            
+            Component.call(this);
+        
+            this.data = $('<section id="' + this.id + '">' +
+                         '   <div><a>' + this.title + '</a></div>' +
+                         '	<form></form>' +
+                         '</section>');
+            
+        };
+        
+        Panel.prototype = new Component();
+        
         /**
          * Create a jQuery object of a panel
          * @param {string} id Description
@@ -96,38 +138,36 @@
          * @return {jQuery}
          */
         this.panel = function (id, title) {
-            return $('<section>' +
-                '   <div><a>' + title + '</a></div>' +
-                '	<form></form>' +
-                '</section>');
-        }
-
+            return new Panel(id, title);
+        };
+        
     };
-
+    
     // Add class to jQuery
-    $.fn.BarelyUI = function () {
-        var element = $(this);
-
-        // Make object if this element doesn't already has a plugin instance
-        if (!element.data('BarelyUI')) {
-            // Store plugin object in this element's data
-            element.data('BarelyUI', new BarelyUI(this));
-        }
-
-        return element.data('BarelyUI');
-
-        // Below removed because this BarelyUI does plan to support collections
-        /*return this.each(function () {
+    $.fn.extend({ BarelyUI: function () {
             var element = $(this);
-
+    
             // Make object if this element doesn't already has a plugin instance
             if (!element.data('BarelyUI')) {
                 // Store plugin object in this element's data
                 element.data('BarelyUI', new BarelyUI(this));
             }
-            
-            return;
-        });*/
-    };
+    
+            return element.data('BarelyUI');
+    
+            // Below removed because this BarelyUI does plan to support collections
+            /*return this.each(function () {
+                var element = $(this);
+    
+                // Make object if this element doesn't already has a plugin instance
+                if (!element.data('BarelyUI')) {
+                    // Store plugin object in this element's data
+                    element.data('BarelyUI', new BarelyUI(this));
+                }
+                
+                return;
+            });*/
+        }
+    });
 
 })(jQuery);
